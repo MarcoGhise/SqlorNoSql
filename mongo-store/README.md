@@ -1,5 +1,6 @@
 # Mongo Store Db
 
+E-commerce solution with MongoDB data layer access
 
 ```
 use admin
