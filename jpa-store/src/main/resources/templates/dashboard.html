@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Basket Dashboard</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/basket.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script th:inline="javascript">
+
+function addQty(basketId, productId){
+    $.post("/basket/"+basketId+"/"+productId,
+    "",
+    function(data,status){
+      alert("Add Qty: " + status);
+      location.reload();
+    });
+  }
+function delQty(basketId, productId){
+	$.ajax({
+	    url: "/basket/"+basketId+"/"+productId,
+	    type: 'DELETE',
+	    success: function(data,status) {
+	    	alert("Remove Qty: " + status);
+	    	location.reload();
+	    }
+	});
+  }  
+function createOrder(basketId){
+    $.post("/order/"+basketId,
+    "",
+    function(data,status){
+      alert("Order created: " + status);
+      
+      if (status=="success")
+      	location.href="/order/"+data.orderId;
+    });
+  }
+  
+
+</script>
+</head>
+<body>
+    <div class="card">
+    <div class="row">
+        <div class="col-md-8 cart">
+            <div class="title">
+                <div class="row">
+                    <div class="col">
+                        <h4><b><span th:text="${basket.userBasket.firstName}" /></span>&nbsp;<span th:text="${basket.userBasket.surname}" /></span></b>'s Shopping Cart</h4>
+                    </div>
+                    <div class="align-self-center text-right text-muted"><span th:text="${size}" /></span> items&nbsp;</div>
+                </div>
+            </div>
+            <div th:each="product: ${basket.products}" class="row border-top border-bottom">
+                <div class="row main align-items-center">
+                    <div class="col-2">&nbsp;</div>
+                    <div class="col">
+                        <div class="row text-muted" th:text="${product.productCatalog.name}"></div>
+                        <div class="row" th:text="${product.productCatalog.description}"></div>
+                    </div>
+                    <div class="col"> <a th:id="${'del_' + product.productCatalog.productId}" th:onclick="delQty([[${basket.basketId}]],[[${product.productCatalog.productId}]])" href="#">-</a><span th:text="${product.quantity}"></span><a th:id="${'add_' + product.productCatalog.productId}" th:onclick="addQty([[${basket.basketId}]],[[${product.productCatalog.productId}]])" href="#">+</a> </div>
+                    <div class="col">&euro; <span th:text="${product.productCatalog.price}"></span> </div>
+                </div>
+            </div>
+            <div class="back-to-shop"><a th:href="${'/catalog/' + basket.basketId}">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+        </div>
+        <div class="col-md-4 summary">
+            <div>
+                <h5><b>Summary</b></h5>
+            </div>
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">&nbsp;ITEMS <span th:text="${size}"></span></div>
+                <div class="col text-right">&euro; <span th:text="${amount}" /></span></div>
+            </div>
+
+            <form>
+                <p>SHIPPING</p> <select>
+                    <option class="text-muted">Standard-Delivery- &euro;5.00</option>
+                </select>
+                <p>GIVE CODE</p> <input id="code" placeholder="Enter your code">
+            </form>
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">TOTAL PRICE</div>
+                <div class="col text-right">&euro; <span th:text="${amountShipping}" /></span></div>
+            </div> <button class="btn" th:onclick="createOrder([[${basketId}]])">CHECKOUT</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

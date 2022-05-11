@@ -1,0 +1,25 @@
+spring:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  sql:
+    init:
+      mode: never      
+      schema-locations: classpath:schema.sql
+        
+        
+store:
+  datasource:
+    mysql:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      password: cicd_password
+      jdbcUrl: jdbc:mysql://localhost:3306/store
+      username: root
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor: TRACE                      

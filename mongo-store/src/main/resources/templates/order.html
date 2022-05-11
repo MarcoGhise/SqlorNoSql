@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Basket Dashboard</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="/css/basket.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:inline="javascript">
+
+function redirectCatalog(userId){
+    $.post("/user/"+userId,
+    "",
+    function(data,status){
+      alert("Order created: " + status);
+      
+      if (status=="success")
+      	location.href="/catalog/"+data.basketId;
+    });
+  }
+  
+
+</script>	
+</head>
+<body>
+	<div class="card">
+		<div class="row">
+			<div class="col-md-8 cart">
+				<div class="title">
+					<div class="row">
+						<div class="col">
+							<h4>
+								<b><span th:text="${firstname}" /></span>&nbsp;<span
+									th:text="${surname}" /></span></b>'s Order
+							</h4>
+						</div>
+						<div class="align-self-center text-right text-muted">
+							<span th:text="${size}" /></span> items&nbsp;
+						</div>
+					</div>
+				</div>
+				<div th:each="product: ${products}"
+					class="row border-top border-bottom">
+					<div class="row main align-items-center">
+						<div class="col-2">&nbsp;</div>
+						<div class="col">
+							<div class="row text-muted" th:text="${product.catalog.name}"></div>
+							<div class="row" th:text="${product.catalog.description}"></div>
+						</div>
+						<div class="col">
+							<span th:text="${product.quantity}"></span>
+						</div>
+						<div class="col">
+							&euro; <span th:text="${product.catalog.price}"></span>
+						</div>
+					</div>
+				</div>
+				<div class="row border-top border-bottom">
+					<div class="col-2">&nbsp;</div>
+					<div class="col">Amount</div>
+					<div class="col" th:text="${amount}"></div>
+				</div>
+			</div>
+			<div class="go-to-cart">
+				<span class="text-muted">Go to Catalog</span> <a
+					th:onclick="redirectCatalog([[${userId}]])" href="#">+</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

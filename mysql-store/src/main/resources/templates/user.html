@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Basket User</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/basket.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="card">
+    <div class="row">
+        <div class="col-md-8 cart">
+            <div class="title">
+                <div class="row">
+                    <div class="col">
+                        <h4><b>User</b></h4>
+                    </div>
+                </div>
+            </div>
+            <form action="/user" method="POST">
+            <div class="row border-top border-bottom">
+            	
+                <div class="row main align-items-center">
+                    <div class="col-2">First Name</div>
+                    <div class="col"><input name="firstname" placeholder="John"></div>                    
+                </div>
+                <div class="row main align-items-center">
+                    <div class="col-2">Surname</div>
+                    <div class="col"><input name="surname" placeholder="Smith"></div>                    
+                </div>
+                <div class="row main align-items-center">
+                    <div class="col-2">&nbsp;</div>
+                    <div class="col"><button class="btn">CREATE USER</button></div>                    
+                </div>
+               
+            </div>
+             </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

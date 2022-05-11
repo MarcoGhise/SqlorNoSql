@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Basket Catalog</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="/css/basket.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:inline="javascript">
+
+function addProduct(basketId, productId){
+    $.post("/basket/"+basketId+"/"+productId,
+    "",
+    function(data,status){
+      alert("Status: " + status);
+    });
+  }
+
+</script>
+</head>
+<body>
+	<div class="card">
+		<div class="row">
+			<div class="col-md-8 cart">
+				<div class="title">
+					<div class="row">
+						<div class="col">
+							<h4>
+								<b>Catalog</b>
+							</h4>
+						</div>
+						<div class="align-self-center text-right text-muted">
+							<span th:text="${size}" /></span> items&nbsp;
+						</div>
+					</div>
+				</div>
+				<div th:each="product: ${catalog}"
+					class="row border-top border-bottom">
+					<div class="row main align-items-center">
+						<div class="col-2">&nbsp;</div>
+						<div class="col">
+							<div class="row text-muted" th:text="${product.name}"></div>
+							<div class="row" th:text="${product.description}"></div>
+						</div>
+						<div class="col">
+							&euro; <span th:text="${product.price}"></span>
+						</div>
+						<div class="col"><button th:id="${'btn_' + product.productId}" th:onclick="addProduct([[${basketId}]],[[${product.productId}]])"><span
+								class="close">&#43;</span></button></div>
+					</div>
+				</div>
+				<div class="go-to-cart">
+					<span class="text-muted">Go to cart</span><a th:href="${'/basket/' + basketId}">&rightarrow;</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
